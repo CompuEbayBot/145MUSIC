@@ -1,0 +1,13 @@
+{
+  "name": "145-music-server",
+  "version": "1.0.0",
+  "description": "Local shared YouTube music queue with host-controlled playback.",
+  "main": "music_server.js",
+  "scripts": {
+    "start": "node music_server.js"
+  },
+  "dependencies": {
+    "dotenv": "latest",
+    "express": "latest"
+  }
+}

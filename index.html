@@ -1,0 +1,876 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>145 MUSIC</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --black: #0a0a0a;
+        --void: #050505;
+        --panel: #111111;
+        --groove: #1a1a1a;
+        --seam: #242424;
+        --dimseam: #1d1d1d;
+        --red: #e8260e;
+        --red-dark: #9f1c0d;
+        --amber: #f0a500;
+        --green: #1fdd6e;
+        --white: #ffffff;
+        --offwhite: #e0d9d0;
+        --muted: #aaaaaa;
+        --muted2: #737373;
+        --shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        background:
+          radial-gradient(circle at top left, rgba(232, 38, 14, 0.18), transparent 32rem),
+          radial-gradient(circle at top right, rgba(240, 165, 0, 0.12), transparent 28rem),
+          var(--void);
+        color: var(--white);
+        font-family: "Archivo", sans-serif;
+        min-height: 100vh;
+        padding: 32px 16px;
+      }
+
+      button,
+      input {
+        font-family: inherit;
+      }
+
+      button {
+        cursor: pointer;
+      }
+
+      .app {
+        width: min(1120px, 100%);
+        margin: 0 auto;
+        background: linear-gradient(180deg, rgba(17, 17, 17, 0.98), rgba(8, 8, 8, 0.98));
+        border: 1px solid var(--seam);
+        border-radius: 28px;
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+
+      .topbar {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 18px;
+        align-items: center;
+        padding: 26px;
+        border-bottom: 1px solid var(--seam);
+        background:
+          linear-gradient(90deg, rgba(232, 38, 14, 0.12), transparent),
+          var(--black);
+      }
+
+      .brand {
+        display: flex;
+        gap: 16px;
+        align-items: center;
+      }
+
+      .logo {
+        width: 66px;
+        height: 66px;
+        border-radius: 18px;
+        display: grid;
+        place-items: center;
+        background: var(--red);
+        color: var(--white);
+        font-family: "Archivo Black", sans-serif;
+        font-size: 30px;
+        transform: rotate(-3deg);
+        box-shadow: 0 14px 34px rgba(232, 38, 14, 0.35);
+      }
+
+      h1 {
+        font-family: "Archivo Black", sans-serif;
+        font-size: clamp(34px, 6vw, 68px);
+        line-height: 0.85;
+        letter-spacing: -0.06em;
+      }
+
+      .subtitle {
+        color: var(--muted);
+        margin-top: 8px;
+        font-family: "Space Mono", monospace;
+        font-size: 12px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .status-pill {
+        border: 1px solid var(--seam);
+        border-radius: 999px;
+        padding: 10px 14px;
+        color: var(--offwhite);
+        background: var(--groove);
+        font-family: "Space Mono", monospace;
+        font-size: 12px;
+        white-space: nowrap;
+      }
+
+      .status-pill.host {
+        color: var(--green);
+        border-color: rgba(31, 221, 110, 0.45);
+      }
+
+      .ticker {
+        padding: 12px 0;
+        background: var(--red);
+        color: var(--white);
+        overflow: hidden;
+        white-space: nowrap;
+        font-family: "Archivo Black", sans-serif;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .ticker span {
+        display: inline-block;
+        padding-left: 100%;
+        animation: marquee 16s linear infinite;
+      }
+
+      @keyframes marquee {
+        from { transform: translateX(0); }
+        to { transform: translateX(-100%); }
+      }
+
+      .content {
+        display: grid;
+        grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
+        gap: 18px;
+        padding: 22px;
+      }
+
+      .panel {
+        background: rgba(17, 17, 17, 0.92);
+        border: 1px solid var(--seam);
+        border-radius: 22px;
+        padding: 20px;
+      }
+
+      .panel h2 {
+        font-family: "Archivo Black", sans-serif;
+        font-size: 18px;
+        margin-bottom: 14px;
+        letter-spacing: -0.02em;
+      }
+
+      .form-grid {
+        display: grid;
+        gap: 12px;
+      }
+
+      label {
+        display: block;
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin-bottom: 6px;
+      }
+
+      input {
+        width: 100%;
+        border: 1px solid var(--seam);
+        border-radius: 14px;
+        padding: 14px 14px;
+        background: #080808;
+        color: var(--white);
+        outline: none;
+        font-size: 16px;
+      }
+
+      input:focus {
+        border-color: rgba(232, 38, 14, 0.75);
+        box-shadow: 0 0 0 3px rgba(232, 38, 14, 0.18);
+      }
+
+      .actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 14px;
+      }
+
+      .btn {
+        border: 0;
+        border-radius: 14px;
+        padding: 13px 16px;
+        color: var(--white);
+        background: var(--red);
+        font-weight: 800;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+
+      .btn:hover {
+        filter: brightness(1.08);
+      }
+
+      .btn.secondary {
+        background: var(--groove);
+        border: 1px solid var(--seam);
+      }
+
+      .btn.green {
+        background: #128a49;
+      }
+
+      .btn:disabled {
+        opacity: 0.55;
+        cursor: not-allowed;
+      }
+
+      .now-card {
+        min-height: 170px;
+        display: grid;
+        gap: 14px;
+      }
+
+      .now-title {
+        font-family: "Archivo Black", sans-serif;
+        font-size: clamp(26px, 4vw, 46px);
+        line-height: 0.98;
+        word-break: break-word;
+      }
+
+      .now-meta,
+      .small-text {
+        color: var(--muted);
+        font-family: "Space Mono", monospace;
+        font-size: 12px;
+      }
+
+      audio {
+        width: 100%;
+        margin-top: 4px;
+        filter: invert(1) hue-rotate(180deg);
+      }
+
+      .host-only {
+        display: none;
+      }
+
+      body.is-host .host-only {
+        display: flex;
+      }
+
+      .meters {
+        display: grid;
+        grid-template-columns: repeat(20, 1fr);
+        gap: 4px;
+        height: 58px;
+        align-items: end;
+        padding: 8px;
+        border-radius: 16px;
+        border: 1px solid var(--dimseam);
+        background: #070707;
+      }
+
+      .bar {
+        height: 18%;
+        border-radius: 999px 999px 2px 2px;
+        background: linear-gradient(to top, var(--green), var(--amber), var(--red));
+        opacity: 0.82;
+        transition: height 140ms linear;
+      }
+
+      .queue-list {
+        display: grid;
+        gap: 10px;
+        max-height: 540px;
+        overflow: auto;
+        padding-right: 4px;
+      }
+
+      .track {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        gap: 12px;
+        align-items: center;
+        border: 1px solid var(--dimseam);
+        background: #0b0b0b;
+        border-radius: 16px;
+        padding: 12px;
+      }
+
+      .track.current {
+        border-color: rgba(232, 38, 14, 0.78);
+        background: rgba(232, 38, 14, 0.08);
+      }
+
+      .track-index {
+        width: 34px;
+        height: 34px;
+        display: grid;
+        place-items: center;
+        border-radius: 10px;
+        background: var(--groove);
+        font-family: "Space Mono", monospace;
+        color: var(--offwhite);
+        font-size: 12px;
+      }
+
+      .track-title {
+        font-weight: 800;
+        line-height: 1.2;
+        word-break: break-word;
+      }
+
+      .track-meta {
+        margin-top: 4px;
+        color: var(--muted2);
+        font-family: "Space Mono", monospace;
+        font-size: 11px;
+      }
+
+      .remove-btn {
+        display: none;
+        width: 34px;
+        height: 34px;
+        border-radius: 10px;
+        border: 1px solid var(--seam);
+        background: var(--red-dark);
+        color: var(--white);
+        font-weight: 900;
+      }
+
+      body.is-host .remove-btn {
+        display: block;
+      }
+
+      .message {
+        min-height: 20px;
+        color: var(--amber);
+        font-family: "Space Mono", monospace;
+        font-size: 12px;
+        margin-top: 10px;
+      }
+
+      .footer {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        flex-wrap: wrap;
+        color: var(--muted2);
+        font-family: "Space Mono", monospace;
+        font-size: 11px;
+        padding: 18px 22px 24px;
+        border-top: 1px solid var(--seam);
+      }
+
+      @media (max-width: 860px) {
+        body {
+          padding: 14px 10px;
+        }
+        .topbar,
+        .content {
+          grid-template-columns: 1fr;
+        }
+        .topbar {
+          padding: 20px;
+        }
+        .status-pill {
+          width: fit-content;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <header class="topbar">
+        <div class="brand">
+          <div class="logo">145</div>
+          <div>
+            <h1>MUSIC</h1>
+            <div class="subtitle">shared queue · host-controlled playback</div>
+          </div>
+        </div>
+        <div id="modePill" class="status-pill">Guest mode</div>
+      </header>
+
+      <div class="ticker"><span id="tickerText">Add a YouTube link or search phrase · 145 MUSIC · Add a YouTube link or search phrase · </span></div>
+
+      <main class="content">
+        <section class="panel">
+          <h2>Add to Queue</h2>
+          <div class="form-grid">
+            <div>
+              <label for="nameInput">Your name</label>
+              <input id="nameInput" maxlength="20" placeholder="Guest" autocomplete="name" />
+            </div>
+            <div>
+              <label for="searchInput">Song / artist / YouTube URL</label>
+              <input id="searchInput" placeholder="Paste YouTube URL or type a song name" autocomplete="off" />
+            </div>
+          </div>
+          <div class="actions">
+            <button class="btn" id="addBtn" type="button" onclick="addToQueue()">Add Track</button>
+            <button class="btn secondary" id="refreshBtn" type="button" onclick="refreshState()">Refresh</button>
+            <button class="btn secondary" id="skipVoteBtn" type="button" onclick="voteSkip()">Vote Skip</button>
+          </div>
+          <div id="message" class="message"></div>
+        </section>
+
+        <section class="panel now-card">
+          <h2>Now Playing</h2>
+          <div>
+            <div id="nowTitle" class="now-title">Nothing playing</div>
+            <div id="nowMeta" class="now-meta">Waiting for the first track.</div>
+          </div>
+          <div class="meters" id="meters" aria-hidden="true"></div>
+          <audio id="player" controls playsinline></audio>
+          <div class="actions host-only">
+            <button class="btn green" type="button" onclick="playCurrentOnHost()">Play Current</button>
+            <button class="btn secondary" type="button" onclick="seekHost(-15)">Back 15s</button>
+            <button class="btn secondary" type="button" onclick="seekHost(15)">Forward 15s</button>
+            <button class="btn secondary" type="button" onclick="restartHost()">Restart</button>
+            <button class="btn secondary" type="button" onclick="skipCurrent()">Host Skip</button>
+          </div>
+          <div id="skipText" class="small-text">Skip votes: 0 / 3</div>
+        </section>
+
+        <section class="panel" style="grid-column: 1 / -1">
+          <h2>Queue</h2>
+          <div id="queueList" class="queue-list"></div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <span>Guests can add tracks and vote to skip.</span>
+        <span>Host URL requires <code>?host=true&amp;password=...</code></span>
+      </footer>
+    </div>
+
+    <script>
+      let serverQueue = [];
+      let currentIndex = -1;
+      let isHost = false;
+      let hasVotedSkip = false;
+      let hostPassword = "";
+      let skipVotes = 0;
+      let skipThreshold = 3;
+      let pollTimer = null;
+      let eventSource = null;
+      let loadingTrackId = null;
+      let pendingAutoplay = false;
+
+      const player = document.getElementById("player");
+      const urlParams = new URLSearchParams(location.search);
+      const wantsHost = urlParams.get("host") === "true";
+      hostPassword = urlParams.get("password") || "";
+      isHost = wantsHost && hostPassword.length > 0;
+
+      function $(id) {
+        return document.getElementById(id);
+      }
+
+      function setMessage(text, isError) {
+        const box = $("message");
+        box.textContent = text || "";
+        box.style.color = isError ? "#ff6b57" : "#f0a500";
+      }
+
+      function getGuestName() {
+        return ($("nameInput").value || localStorage.getItem("musicName") || "Guest").trim().substring(0, 20) || "Guest";
+      }
+
+      function saveName() {
+        const name = ($("nameInput").value || "").trim().substring(0, 20);
+        if (name) localStorage.setItem("musicName", name);
+      }
+
+      async function directUrlForTrack(track) {
+        const data = await fetchJson(`/direct/${track.id}?password=${encodeURIComponent(hostPassword)}`);
+        if (!data.url) throw new Error("Server did not return an audio URL");
+        return data.url;
+      }
+
+      function fallbackStreamUrlForTrack(track) {
+        if (track && track.id) return `/stream/${track.id}`;
+        return `/stream?q=${encodeURIComponent(track.query || track.title || "")}`;
+      }
+
+      function currentTrack() {
+        if (currentIndex < 0 || currentIndex >= serverQueue.length) return null;
+        return serverQueue[currentIndex];
+      }
+
+      function applyHostMode() {
+        document.body.classList.add("is-host");
+        const pill = $("modePill");
+        pill.textContent = "Host mode";
+        pill.classList.add("host");
+      }
+
+      function applyGuestMode() {
+        document.body.classList.remove("is-host");
+        const pill = $("modePill");
+        pill.textContent = "Guest mode";
+        pill.classList.remove("host");
+      }
+
+      function buildMeters() {
+        const meters = $("meters");
+        meters.innerHTML = "";
+        for (let i = 0; i < 20; i++) {
+          const bar = document.createElement("div");
+          bar.className = "bar";
+          bar.style.height = `${12 + Math.random() * 30}%`;
+          meters.appendChild(bar);
+        }
+        setInterval(() => {
+          const active = !player.paused && !player.ended && player.src;
+          [...meters.children].forEach((bar, i) => {
+            const base = active ? 18 + Math.random() * 80 : 8 + ((i % 5) * 5);
+            bar.style.height = `${base}%`;
+          });
+        }, 180);
+      }
+
+      function renderNowPlaying(shouldAutoplay) {
+        const track = currentTrack();
+        if (!track) {
+          $("nowTitle").textContent = "Nothing playing";
+          $("nowMeta").textContent = "Waiting for the first track.";
+          $("tickerText").textContent = "Add a YouTube link or search phrase · 145 MUSIC · ";
+          loadingTrackId = null;
+          if (isHost) {
+            player.removeAttribute("src");
+            player.load();
+          }
+          return;
+        }
+
+        $("nowTitle").textContent = track.title || track.query || "Untitled track";
+        $("nowMeta").textContent = `Added by ${track.addedBy || "Guest"} · Queue position ${currentIndex + 1} of ${serverQueue.length}`;
+        $("tickerText").textContent = `Now playing: ${track.title || track.query} · Added by ${track.addedBy || "Guest"} · `;
+
+        if (isHost) {
+          prepareHostAudio(track, Boolean(shouldAutoplay));
+        }
+      }
+
+      async function prepareHostAudio(track, shouldAutoplay) {
+        if (!track || !track.id) return;
+
+        const wantedTrackId = track.id;
+        loadingTrackId = wantedTrackId;
+        pendingAutoplay = Boolean(shouldAutoplay);
+
+        try {
+          setMessage("Preparing audio...", false);
+          const directUrl = await directUrlForTrack(track);
+
+          if (loadingTrackId !== wantedTrackId) return;
+
+          if (player.src !== directUrl) {
+            player.src = directUrl;
+            player.load();
+          }
+
+          setMessage("", false);
+
+          if (pendingAutoplay) {
+            await player.play();
+          }
+        } catch (err) {
+          if (loadingTrackId !== wantedTrackId) return;
+
+          // Fallback to the old server-piped stream. This may not seek as well,
+          // but it can still play if the direct Google/YouTube media URL fails.
+          const fallbackUrl = new URL(fallbackStreamUrlForTrack(track), location.href).href;
+          if (player.src !== fallbackUrl) {
+            player.src = fallbackUrl;
+            player.load();
+          }
+
+          const message = err && err.message ? err.message : String(err || "Could not prepare direct audio");
+          setMessage(`Using fallback stream. Seeking may be limited. ${message}`, true);
+
+          if (pendingAutoplay) {
+            player.play().catch(() => {
+              setMessage("Host browser blocked autoplay. Press Play Current once.", false);
+            });
+          }
+        }
+      }
+
+      function renderQueue() {
+        const list = $("queueList");
+        if (!serverQueue.length) {
+          list.innerHTML = '<div class="small-text">No tracks queued yet.</div>';
+          return;
+        }
+
+        list.innerHTML = "";
+        serverQueue.forEach((track, index) => {
+          const row = document.createElement("div");
+          row.className = `track${index === currentIndex ? " current" : ""}`;
+          if (isHost) {
+            row.title = "Click to play this track";
+            row.addEventListener("click", () => jumpTo(index));
+          }
+
+          const idx = document.createElement("div");
+          idx.className = "track-index";
+          idx.textContent = index + 1;
+
+          const main = document.createElement("div");
+          const title = document.createElement("div");
+          title.className = "track-title";
+          title.textContent = track.title || track.query || "Untitled track";
+          const meta = document.createElement("div");
+          meta.className = "track-meta";
+          meta.textContent = `Added by ${track.addedBy || "Guest"}${track.isUrl ? " · YouTube URL" : " · Search"}`;
+          main.appendChild(title);
+          main.appendChild(meta);
+
+          const remove = document.createElement("button");
+          remove.className = "remove-btn";
+          remove.type = "button";
+          remove.textContent = "×";
+          remove.title = "Remove track";
+          remove.addEventListener("click", (event) => removeTrack(event, track.id));
+
+          row.appendChild(idx);
+          row.appendChild(main);
+          row.appendChild(remove);
+          list.appendChild(row);
+        });
+      }
+
+      function updateSkipText() {
+        $("skipText").textContent = `Skip votes: ${skipVotes} / ${skipThreshold}`;
+        $("skipVoteBtn").disabled = hasVotedSkip || currentIndex < 0;
+      }
+
+      function applyState(state, shouldAutoplay) {
+        serverQueue = Array.isArray(state.queue) ? state.queue : [];
+        currentIndex = Number.isInteger(state.currentIndex) ? state.currentIndex : -1;
+        skipVotes = Number(state.skipVotes || 0);
+        skipThreshold = Number(state.skipThreshold || 3);
+        if (skipVotes === 0) hasVotedSkip = false;
+        renderNowPlaying(Boolean(shouldAutoplay));
+        renderQueue();
+        updateSkipText();
+      }
+
+      async function refreshState() {
+        const hostParams = isHost ? `?host=true&password=${encodeURIComponent(hostPassword)}` : "";
+        const res = await fetch(`/queue${hostParams}`);
+        const state = await res.json();
+        if (!res.ok) throw new Error(state.error || "Could not load queue");
+        applyState(state, false);
+      }
+
+      async function fetchJson(url, options) {
+        const res = await fetch(url, options);
+        let data = {};
+        try {
+          data = await res.json();
+        } catch (_) {}
+        if (!res.ok) throw new Error(data.error || `Request failed: ${res.status}`);
+        return data;
+      }
+
+      async function addToQueue() {
+        const query = ($("searchInput").value || "").trim();
+        if (!query) {
+          setMessage("Type a song, artist, or YouTube URL first.", true);
+          return;
+        }
+
+        saveName();
+        $("addBtn").disabled = true;
+        setMessage("Adding track...", false);
+
+        try {
+          const res = await fetch("/queue", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ query, name: getGuestName() }),
+          });
+          const data = await res.json();
+          if (!res.ok) throw new Error(data.error || "Could not add track");
+          $("searchInput").value = "";
+          setMessage(`Queued: ${data.track.title}`, false);
+          await refreshState();
+        } catch (err) {
+          setMessage(err.message || String(err), true);
+        } finally {
+          $("addBtn").disabled = false;
+        }
+      }
+
+      async function voteSkip() {
+        saveName();
+        try {
+          const res = await fetch("/skip-vote", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name: getGuestName() }),
+          });
+          const data = await res.json();
+          if (!res.ok) throw new Error(data.error || "Could not vote skip");
+          hasVotedSkip = true;
+          skipVotes = Number(data.skipVotes || 0);
+          skipThreshold = Number(data.skipThreshold || 3);
+          updateSkipText();
+          setMessage(data.alreadyVoted ? "You already voted to skip." : "Skip vote counted.", false);
+          await refreshState();
+        } catch (err) {
+          setMessage(err.message || String(err), true);
+        }
+      }
+
+      async function skipCurrent() {
+        if (!isHost) return;
+        try {
+          const state = await fetchJson(`/next?password=${encodeURIComponent(hostPassword)}`, { method: "POST" });
+          applyState(state, true);
+        } catch (err) {
+          setMessage(err.message || String(err), true);
+        }
+      }
+
+      async function jumpTo(index) {
+        if (!isHost) return;
+        try {
+          const state = await fetchJson(`/play/${index}?password=${encodeURIComponent(hostPassword)}`, { method: "POST" });
+          applyState(state, true);
+        } catch (err) {
+          setMessage(err.message || String(err), true);
+        }
+      }
+
+      async function removeTrack(e, id) {
+        e.stopPropagation();
+        if (!isHost) return;
+        try {
+          const state = await fetchJson(`/queue/${id}?password=${encodeURIComponent(hostPassword)}`, { method: "DELETE" });
+          applyState(state, true);
+        } catch (err) {
+          setMessage(err.message || String(err), true);
+        }
+      }
+
+      function playCurrentOnHost() {
+        if (!isHost) return;
+        const track = currentTrack();
+        if (!track) {
+          setMessage("No current track to play.", true);
+          return;
+        }
+        prepareHostAudio(track, true);
+      }
+
+      function seekHost(seconds) {
+        if (!isHost || !player.src) return;
+        try {
+          player.currentTime = Math.max(0, Number(player.currentTime || 0) + Number(seconds || 0));
+        } catch (err) {
+          setMessage("This stream does not support seeking yet. Try Play Current again.", true);
+        }
+      }
+
+      function restartHost() {
+        if (!isHost || !player.src) return;
+        try {
+          player.currentTime = 0;
+          player.play().catch((err) => setMessage(err.message || String(err), true));
+        } catch (err) {
+          setMessage("Could not restart this stream.", true);
+        }
+      }
+
+      function connectSSE() {
+        if (!isHost) return;
+        if (eventSource) eventSource.close();
+
+        eventSource = new EventSource(`/host-events?password=${encodeURIComponent(hostPassword)}`);
+
+        eventSource.addEventListener("state", (event) => {
+          applyState(JSON.parse(event.data), false);
+        });
+
+        eventSource.addEventListener("queued", (event) => {
+          applyState(JSON.parse(event.data), false);
+        });
+
+        eventSource.addEventListener("skip-vote", (event) => {
+          const data = JSON.parse(event.data);
+          skipVotes = Number(data.skipVotes || 0);
+          skipThreshold = Number(data.skipThreshold || 3);
+          updateSkipText();
+        });
+
+        eventSource.addEventListener("play", (event) => {
+          applyState(JSON.parse(event.data), true);
+        });
+
+        eventSource.onerror = () => {
+          setMessage("Host live connection dropped. Reconnecting...", true);
+        };
+      }
+
+      function startGuestPolling() {
+        refreshState().catch(() => {});
+        pollTimer = setInterval(() => refreshState().catch(() => {}), 2500);
+      }
+
+      async function init() {
+        buildMeters();
+
+        const savedName = localStorage.getItem("musicName") || "";
+        if (savedName) $("nameInput").value = savedName;
+
+        if (wantsHost) {
+          if (!hostPassword) {
+            alert("Host mode requires password in URL");
+            location.href = "/";
+            return;
+          }
+          applyHostMode();
+          connectSSE();
+          refreshState().catch((err) => setMessage(err.message || String(err), true));
+        } else {
+          applyGuestMode();
+          startGuestPolling();
+        }
+
+        $("searchInput").addEventListener("keydown", (e) => {
+          if (e.key === "Enter") addToQueue();
+        });
+
+        $("nameInput").addEventListener("change", saveName);
+
+        player.addEventListener("ended", () => {
+          if (!isHost) return;
+          skipCurrent();
+        });
+      }
+
+      init();
+    </script>
+  </body>
+</html>
